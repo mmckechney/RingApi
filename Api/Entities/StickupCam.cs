@@ -109,7 +109,7 @@ namespace KoenZomers.Ring.Api.Entities
 
         [JsonPropertyName("led_status")]
         [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-        public DeviceStatus LedStatus { get; set; }
+        public string LedStatus { get; set; }
 
         [JsonPropertyName("siren_status")]
         [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]

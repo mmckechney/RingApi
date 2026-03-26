@@ -7,6 +7,7 @@ using System.Threading;
 using System.Text.Json;
 using KoenZomers.Ring.Api.Entities;
 using System.Collections.Specialized;
+using System.Reflection.Metadata.Ecma335;
 
 namespace KoenZomers.Ring.Api
 {
@@ -341,7 +342,7 @@ namespace KoenZomers.Ring.Api
         /// <exception cref="Exceptions.TwoFactorAuthenticationIncorrectException">Thrown when the web server indicates the two-factor code was incorrect (HTTP 400).</exception>
         /// <exception cref="Exceptions.TwoFactorAuthenticationRequiredException">Thrown when the web server indicates two-factor authentication is required (HTTP 412).</exception>
         /// <exception cref="Exceptions.DeviceUnknownException">Thrown when the web server indicates the requested Ring device was not found (HTTP 404).</exception>
-        public async Task<List<DoorbotHistoryEvent>> GetDoorbotsHistory(int? doorbotId, int? limit = null)
+        public async Task<List<DoorbotHistoryEvent>> GetDoorbotsHistory(long? doorbotId, int? limit = null)
         {
             await EnsureSessionValid();
 
@@ -411,7 +412,7 @@ namespace KoenZomers.Ring.Api
         /// <exception cref="Exceptions.TwoFactorAuthenticationIncorrectException">Thrown when the web server indicates the two-factor code was incorrect (HTTP 400).</exception>
         /// <exception cref="Exceptions.TwoFactorAuthenticationRequiredException">Thrown when the web server indicates two-factor authentication is required (HTTP 412).</exception>
         /// <exception cref="Exceptions.DeviceUnknownException">Thrown when the web server indicates the requested Ring device was not found (HTTP 404).</exception>
-        public async Task<List<Entities.DoorbotHistoryEvent>> GetDoorbotsHistory(DateTime startDate, DateTime? endDate, int? doorbotId = null)
+        public async Task<List<Entities.DoorbotHistoryEvent>> GetDoorbotsHistory(DateTime startDate, DateTime? endDate, long? doorbotId = null)
         {
             await EnsureSessionValid();
 

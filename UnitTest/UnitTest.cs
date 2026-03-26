@@ -121,12 +121,11 @@ namespace KoenZomers.Ring.UnitTest
         /// Test the scenario where the authentication would fail
         /// </summary>
         [TestMethod]
-        [ExpectedException(typeof(Api.Exceptions.AuthenticationFailedException))]
         public async Task AuthenticateFailTest()
         {
             var session = new Api.Session("test@test.com", "someinvalidpassword");
 
-            await session.Authenticate();
+            await Assert.ThrowsExactlyAsync<Api.Exceptions.AuthenticationFailedException>(() => session.Authenticate());
         }
 
         /// <summary>
@@ -148,11 +147,10 @@ namespace KoenZomers.Ring.UnitTest
         /// Test the scenario where a refresh token is used to set up an authenticated session which fails
         /// </summary>
         [TestMethod]
-        [ExpectedException(typeof(Api.Exceptions.AuthenticationFailedException))]
         public async Task AuthenticateWithRefreshTokenFailTest()
         {
             // Request a new authenticated session based on a non existing RefreshToken
-            await Api.Session.GetSessionByRefreshToken("abcdefghijklmnopqrstuvwxyz");
+            await Assert.ThrowsExactlyAsync<Api.Exceptions.AuthenticationFailedException>(() => Api.Session.GetSessionByRefreshToken("abcdefghijklmnopqrstuvwxyz"));
         }
 
         /// <summary>
@@ -173,11 +171,10 @@ namespace KoenZomers.Ring.UnitTest
         /// Test if the an SessionNotAuthenticatedException gets thrown when trying to retrieve the Ring devices without authenticating first
         /// </summary>
         [TestMethod]
-        [ExpectedException(typeof(Api.Exceptions.SessionNotAuthenticatedException))]
         public async Task GetDevicesUnauthenticatedTest()
         {
             var session = new Api.Session("", "");
-            await session.GetRingDevices();
+            await Assert.ThrowsExactlyAsync<Api.Exceptions.SessionNotAuthenticatedException>(() => session.GetRingDevices());
         }
 
         /// <summary>
@@ -228,7 +225,6 @@ namespace KoenZomers.Ring.UnitTest
         /// Test if the result if doorbot history events are tried to be retrieved only for a specific doorbot which does not exist
         /// </summary>
         [TestMethod]
-        [ExpectedException(typeof(Api.Exceptions.DeviceUnknownException))]
         public async Task GetDoorbotsHistoryForSpecificNonExistingDoorbotTest()
         {
             if (!IsSessionActive()) return;
@@ -236,7 +232,7 @@ namespace KoenZomers.Ring.UnitTest
             Assert.IsNotNull(session, "No active session available");
 
             // Try getting the historical items for the a doorbot that does not exist
-            await session.GetDoorbotsHistory(doorbotId: 1234567);
+            await Assert.ThrowsExactlyAsync<Api.Exceptions.DeviceUnknownException>(() => session.GetDoorbotsHistory(doorbotId: 1234567));
         }
 
         /// <summary>
